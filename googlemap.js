@@ -50,7 +50,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
        * This constructor takes the control DIV as an argument.
        * @constructor
        */
-      function CreateControl(controlDiv, map) {
+      /*function CreateControl(controlDiv, map) {
 
         // Set CSS for the control border.
         var controlUI = document.createElement('div');
@@ -79,14 +79,14 @@ google.maps.event.addDomListener(window, 'load', initialize);
         controlUI.addEventListener('click', function() {
         });
 
-      }
+      }*/
 
       /**
        * The CenterControl adds a control to the map that create gripe
        * This constructor takes the control DIV as an argument.
        * @constructor
        */
-      function CreateControl1(controlDiv, map) {
+      /*function CreateControl1(controlDiv, map) {
 
         // Set CSS for the control border.
         var controlUI = document.createElement('div');
@@ -115,7 +115,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
         controlUI.addEventListener('click', function() {
         });
 
-      }
+      }*/
 
 
 
