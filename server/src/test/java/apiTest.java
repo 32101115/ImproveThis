@@ -5,7 +5,14 @@ import org.junit.Test;
  */
 public class apiTest {
     @Test
-    public void test() {
+    public void testGetImprovement() {
+        ImprovementSuggestion sug = ImproveThisUtils.getImprovementSuggestion( "ONGOING", "CoC", "1" );
+        System.out.println( sug.toString() );
+    }
+
+    @Test
+    public void testUpvote(){
+        ImproveThisUtils.upvote( "ONGOING", "CoC", "1" );
         ImprovementSuggestion sug = ImproveThisUtils.getImprovementSuggestion( "ONGOING", "CoC", "1" );
         System.out.println( sug.toString() );
     }
