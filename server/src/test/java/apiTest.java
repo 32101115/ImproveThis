@@ -6,7 +6,7 @@ import org.junit.Test;
 public class apiTest {
     @Test
     public void test() {
-        ImprovementSuggestion sug = ImproveThisUtils.getImprovementDiscussion( "ONGOING", "CoC", "1" );
+        ImprovementSuggestion sug = ImproveThisUtils.getImprovementSuggestion( "ONGOING", "CoC", "1" );
         System.out.println( sug.toString() );
     }
 }

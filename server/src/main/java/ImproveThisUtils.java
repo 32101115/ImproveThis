@@ -27,7 +27,7 @@ public class ImproveThisUtils {
         return sb.toString();
     }
 
-    public static ImprovementSuggestion getImprovementDiscussion( String improvementState, String region, String improvementId ) {
+    public static ImprovementSuggestion getImprovementSuggestion( String improvementState, String region, String improvementId ) {
         AmazonS3 s3Client = new AmazonS3Client( new ProfileCredentialsProvider() );
         String s3Key = s3Key( improvementState, region, improvementId );
         System.out.println( s3Key );
