@@ -1,0 +1,235 @@
+
+<!DOCTYPE html>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="http://maps.google.com/maps/api/js?sensor=true"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- The above 2 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="ImproveThisApp">
+    <meta name="author" content="jitae">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Note there is no responsive meta tag here -->
+
+
+    <title>ImproveThisApp</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.max.css" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/non-responsive.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="js/ie-emulation-modes-warning.js"></script>
+
+    <!--this is for popup window for create -->
+  <SCRIPT TYPE="text/javascript">
+    function popup(mylink, windowname) { 
+      if (! window.focus)return true;
+      var href;
+      if (typeof(mylink) == 'string') href=mylink;
+      else href=mylink.href; 
+      window.open(href, windowname, 'width=550,height=600,scrollbars=yes'); 
+      return false; 
+    }
+  </SCRIPT>
+  <!--this is for create Json form -->
+  <script type="text/javascript" src="forumJsonConverter.js"></script>
+  </head>
+    <style> #map{
+      height: 500px; width: 100%;
+    }
+    </style>
+    <link rel="stylesheet" href="mainTable.css">
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <!-- The mobile navbar-toggle button can be safely removed since you do not need it in a non-responsive implementation -->
+          <a class="navbar-brand" href="#">ImproveThis</a>
+        </div>
+        <!-- Note that the .navbar-collapse and .collapse classes have been removed from the #navbar -->
+        <div id="navbar">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Highest rating</a></li>
+                <li><a href="#">Newest</a></li>
+                <li><a href="#">Closest</a></li>
+                <!--<li role="separator" class="divider"></li>
+                <li class="dropdown-header">Nav header</li>
+                <li><a href="#">Separated link</a></li>
+                <li><a href="#">One more separated link</a></li>-->
+              </ul>
+            </li>
+          </ul>
+          <form class="navbar-form navbar-left">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Search">
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+          </form>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="create.html" onClick="return popup(this, 'create')">Create</a></li>
+            <li><a href="Login.html">Logout</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+        <div id="map"></div>
+      <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCypmMpjzvBvQaPIK1fQpEKZkbShQQmAe0&libraries=visualization&callback=initMap">
+      </script>
+      <script src="googlemap.js"></script>
+      <!--
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <caption>Suggestions</caption>
+          <colgroup>
+            <col width="20">
+            <col width="400">
+            <col width="20">
+            <col width="20">
+            <col width="20">
+            <col width="20">
+          </colgroup>
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Title</th>
+              <th scope="col">Writer</th>
+              <th scope="col">Date</th>
+              <th scope="col">View</th>
+              <th scope="col">Likes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="number">1</td>
+              <td class="title">
+                <a href="#">title here</a>
+              </td>
+              <td class="name">jitae</td>
+              <td class="date">10/20/2016</td>
+              <td class="hit">10</td>
+              <th><button class="btn btn-primary" type="button">
+                Likes <span class="badge">40</span>
+                  </button></th>
+            </tr>
+          </tbody>
+        </div>
+      -->
+      <div id="page">
+      <!-- [content] -->
+      <section id="content">
+        <!-- [to-do] -->
+        <article id="to-do">
+          <section>
+            <header>
+            </header>
+            <table id="to-do-list">
+              <caption>Suggestions</caption>
+              <colgroup>
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+              </colgroup>
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Title</th>
+                  <th scope="col">Description</th>             
+                  <th scope="col">Name</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">View</th>
+                  <th scope="col">Likes</th>
+                </tr>
+              </thead>
+              <tbody>           
+              </tbody>
+            </table>
+          </section>      
+          <section class="new-suggestion">     
+            <header>
+              <h2>Add a New</h2>
+            </header>
+            <form id="add-new">
+              <!--
+              <label for="new-name">Name:</label>
+              <input id="new-name" name="new-name" type="text" required>
+              <br>
+              <label for="new-date">Date:</label>
+              <input id="new-date" name="new-date" type="datetime" required>          
+              <br/>
+              <label for="new-priority">Priority:</label>
+              <input id="new-priority" name="new-priority" type="number" required min="1" max="5" step="1" value="2">
+              <label for="new-color">Color:</label>
+              <input id="new-color" name="new-color" type="color">
+              <br/>
+              <label for="new-desc">Description:</label>
+              <input id="new-desc" name="new-desc" type="text">
+              <br/>
+              <label for="new-email">Invite:</label>
+              <input id="new-email" name="new-email" type="email" multiple>
+              <br />
+              <input type="submit" value="Add new">
+              -->
+
+              <input id="new-number" name="new-number" type="hidden">
+              <input id="new-view" name="new-view" type="hidden">
+              <input id="new-likes" name="new-likes" type="hidden">
+              <label for="new-name">Name:</label>
+              <input id="new-name" name="new-name" type="text" required>
+              <br/>
+              <label for="new-date">Date:</label>
+              <input id="new-date" name="new-date" type="datetime" required>   
+              <br/>
+              <label for="new-title">Title:</label>
+              <input id="new-title" name="new-title" type="text" required>   
+              <br/>
+              <label for="new-desc">Description:</label>
+              <br/>
+              <textarea id="new-desc" name="new-desc" type="text" style="width:500px;height:200px;padding:2%;font:1.4em/1.6em;">
+              </textarea> 
+              <br/>
+              <input type="submit" value="Add new">
+            </form>
+          </section>
+        </article>
+        <!-- [/to-do] -->   
+      </section>
+      <!-- [/content] -->
+      </div>
+
+    </div> <!-- /container -->
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script>window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')</script>
+    <script src="js/jquery-3.1.1.min"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>
