@@ -20,7 +20,7 @@
 
         $.ajax({
           type: "POST",
-          url: "submit.php",
+          url: "submission.php",
           data: json,
           dataType: "json"
         }).always(function() { 
@@ -32,12 +32,13 @@
               <td>' + form['new-name'].value + '</td>
               <td>' + form['new-data'].value + '</td>
               <td>' + form['new-view'].value + '</td>
-              <td>' + form['new-likes'].value + '</td>
+              <td>' + form['new-like'].value + '</td>
             </tr>');
+
         }).fail(function() { 
           alert("Failed to add to-do"); 
         });
 
-        return true;
+        return false;
       });
     });
