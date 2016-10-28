@@ -43,7 +43,7 @@
     }
   </SCRIPT>
   <!--this is for create Json form -->
-  <script type="text/javascript" src="forumJsonConverter.js"></script>
+  <script type="text/javascript" src="forumJson.js"></script>
   </head>
     <style> #map{
       height: 500px; width: 100%;
@@ -166,7 +166,9 @@
                   <th scope="col">Likes</th>
                 </tr>
               </thead>
-              <tbody>           
+              <tbody>
+                <div id ="resultDiv">
+                </div>           
               </tbody>
             </table>
           </section>      
@@ -174,46 +176,25 @@
             <header>
               <h2>Add a New</h2>
             </header>
-            <form id="add-new">
-              <!--
-              <label for="new-name">Name:</label>
-              <input id="new-name" name="new-name" type="text" required>
-              <br>
-              <label for="new-date">Date:</label>
-              <input id="new-date" name="new-date" type="datetime" required>          
+            <form id="addNew">
+              <input id="newNumber" name="newNumber" type="hidden">
+              <input id="newView" name="newView" type="hidden">
+              <input id="newLike" name="newLike" type="hidden">
+              <label for="newName">Name:</label>
+              <input id="newName" name="newName" type="text" required>
               <br/>
-              <label for="new-priority">Priority:</label>
-              <input id="new-priority" name="new-priority" type="number" required min="1" max="5" step="1" value="2">
-              <label for="new-color">Color:</label>
-              <input id="new-color" name="new-color" type="color">
+              <label for="newDate">Date:</label>
+              <input id="newDate" name="newDate" type="datetime" required>   
               <br/>
-              <label for="new-desc">Description:</label>
-              <input id="new-desc" name="new-desc" type="text">
+              <label for="newTitle">Title:</label>
+              <input id="newTitle" name="newTitle" type="text" required>   
               <br/>
-              <label for="new-email">Invite:</label>
-              <input id="new-email" name="new-email" type="email" multiple>
-              <br />
-              <input type="submit" value="Add new">
-              -->
-
-              <input id="new-number" name="new-number" type="hidden">
-              <input id="new-view" name="new-view" type="hidden">
-              <input id="new-likes" name="new-likes" type="hidden">
-              <label for="new-name">Name:</label>
-              <input id="new-name" name="new-name" type="text" required>
+              <label for="newDesc">Description:</label>
               <br/>
-              <label for="new-date">Date:</label>
-              <input id="new-date" name="new-date" type="datetime" required>   
-              <br/>
-              <label for="new-title">Title:</label>
-              <input id="new-title" name="new-title" type="text" required>   
-              <br/>
-              <label for="new-desc">Description:</label>
-              <br/>
-              <textarea id="new-desc" name="new-desc" type="text" style="width:500px;height:200px;padding:2%;font:1.4em/1.6em;">
+              <textarea id="newDesc" name="newDesc" type="text" style="width:500px;height:200px;padding:2%;font:1.4em/1.6em;">
               </textarea> 
               <br/>
-              <input type="submit" value="Add new">
+              <input id = "submit" type="button" value="Add new">
             </form>
           </section>
         </article>
