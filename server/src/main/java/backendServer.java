@@ -2,7 +2,7 @@ import static spark.Spark.get;
 
 public class backendServer {
     public static void main( String[] args ) {
-        get( "/getImprovement/", ( req, res ) -> {
+        get( "/getImprovement/*", ( req, res ) -> {
             String region = req.queryParams( "region" );
             String improvementState = req.queryParams( "improvementState" );
             String improvementId = req.queryParams( "improvementId" );
