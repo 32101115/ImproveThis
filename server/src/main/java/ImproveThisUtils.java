@@ -9,8 +9,12 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.apache.commons.io.IOUtils;
+import org.joda.time.DateTime;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.stream.Collectors;
 
 public class ImproveThisUtils {
@@ -30,7 +34,8 @@ public class ImproveThisUtils {
         return sb.toString();
     }
 
-    public static ImprovementSuggestion getImprovementSuggestion( String improvementState, String region, String improvementId ) {
+    public static ImprovementSuggestion getImprovementSuggestion( String improvementState, String region,
+                                                                  String improvementId ) {
         AmazonS3 s3Client = new AmazonS3Client( new ProfileCredentialsProvider() );
         String s3Key = s3Key( improvementState, region, improvementId );
         S3Object obj = s3Client.getObject( new GetObjectRequest( SUGGESTION_BUCKET, s3Key ) );
@@ -57,7 +62,7 @@ public class ImproveThisUtils {
             InputStream jsonStream = IOUtils.toInputStream( suggestionJson, "UTF-8" );
             String s3Key = s3Key( improvementState, region, improvementId );
             AmazonS3 s3Client = new AmazonS3Client( new ProfileCredentialsProvider() );
-            Long length = Long.valueOf( suggestionJson.length() );
+            Long length = (long) suggestionJson.length();
             ObjectMetadata md = new ObjectMetadata();
             md.setContentLength( length );
             s3Client.putObject( new PutObjectRequest( SUGGESTION_BUCKET, s3Key, jsonStream, md ) );
@@ -66,4 +71,39 @@ public class ImproveThisUtils {
         }
     }
 
+    public static void postImprovement( String region, String improvementId, Double xPosition, Double yPosition,
+                                        String title, String description, String creator ) {
+        ImprovementSuggestion suggestion = ImprovementSuggestion.builder()
+                .improvementState( "ONGOING" )
+                .creator( creator )
+                .region( region )
+                .improvementId( improvementId )
+                .xPosition( xPosition )
+                .yPosition( yPosition )
+                .title( title )
+                .description( description )
+                .upvotes( 0 )
+                .discussionCount( 0 )
+                .creationDate( DateTime.now().toString() )
+                .build();
+        try {
+            AmazonS3 s3Client = new AmazonS3Client( new ProfileCredentialsProvider() );
+            String s3Key = s3Key( "ONGOING", region, improvementId );
+            String suggestionJson = new Gson().toJson( suggestion );
+            InputStream jsonStream = IOUtils.toInputStream( suggestionJson, "UTF-8" );
+            Long length = (long) suggestionJson.length();
+            ObjectMetadata md = new ObjectMetadata();
+            md.setContentLength( length );
+            s3Client.putObject( new PutObjectRequest( SUGGESTION_BUCKET, s3Key, jsonStream, md ) );
+        } catch ( IOException e ) {
+            System.err.println( "error" );
+        }
+    }
+
+    public static String getImprovementFromRequest( String improvementState, String region, String improvementId ) {
+        ImprovementSuggestion suggestion = getImprovementSuggestion( improvementState, region, improvementId );
+        Gson gson = new Gson();
+        String outputJson = gson.toJson( suggestion );
+        return outputJson;
+    }
 }
