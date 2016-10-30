@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="http://maps.google.com/maps/api/js?sensor=true"></script>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- The above 2 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="ImproveThisApp">
+    <meta name="author" content="jitae">
+
+    <!-- Note there is no responsive meta tag here -->
+
+
+    <title>ImproveThisApp</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.max.css" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/non-responsive.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="js/ie-emulation-modes-warning.js"></script>
+  </head>
+    <style> #map{
+      height: 400px; width: 500px;
+    }
+    </style>
+    <style> #title{
+      width: 453px;
+    }
+    </style>
+  <body>
+  	<nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <!-- The mobile navbar-toggle button can be safely removed since you do not need it in a non-responsive implementation -->
+          <a class="navbar-brand" href="#">ImproveThis</a>
+        </div>
+      </div><!--/.nav-collapse -->
+    </nav>
+  	<div class="container">
+        <div id="map"></div>
+      <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCypmMpjzvBvQaPIK1fQpEKZkbShQQmAe0&libraries=visualization&callback=initMap">
+      </script>
+      <script src="googlemap.js"></script>
+      <div class="input-group">
+    		<span class="input-group-addon" id="basic-addon1">title</span>
+    		<input id="title" type="text" class="form-control" placeholder="title" aria-describedby="basic-addon1">
+    	</div>
+    	<form action="/html/tags/html_form_tag_action.cfm" method="post">
+    	<textarea name="comments" id="comments" style="width:500px;height:200px;padding:2%;font:1.4em/1.6em;">
+	    </textarea>
+    	<br>
+    	<input type="submit" value="Submit">
+    	</br>
+    	</form>
+    </div><!--container-->
+
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+  </body> 
+</html>
