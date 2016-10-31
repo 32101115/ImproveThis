@@ -14,7 +14,7 @@ public class backendServer {
             String improvementId = req.queryParams( "improvementId" );
             String title = req.queryParams( "title" );
             Double xPosition = Double.valueOf( req.queryParams( "xPosition" ) );
-            Double yPosition = Double.valueOf( req.queryParams( "xPosition" ) );
+            Double yPosition = Double.valueOf( req.queryParams( "yPosition" ) );
             String creator = req.queryParams( "creator" );
             ImproveThisUtils.postImprovement( region,improvementId, xPosition, yPosition, title, description, creator );
             return ImproveThisUtils.getImprovementFromRequest( "ONGOING", region, improvementId );
