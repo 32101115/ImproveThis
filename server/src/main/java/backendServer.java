@@ -16,6 +16,7 @@ public class backendServer {
             Double xPosition = Double.valueOf( req.queryParams( "xPosition" ) );
             Double yPosition = Double.valueOf( req.queryParams( "xPosition" ) );
             String creator = req.queryParams( "creator" );
+            ImproveThisUtils.postImprovement( region,improvementId, xPosition, yPosition, title, description, creator );
             return ImproveThisUtils.getImprovementFromRequest( "ONGOING", region, improvementId );
         } );
         get( "/upvote/*/*/*", ( req, res ) -> {
