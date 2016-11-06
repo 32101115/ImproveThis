@@ -1,8 +1,5 @@
 
 <!DOCTYPE html>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="http://maps.google.com/maps/api/js?sensor=true"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 
 <html lang="en">
@@ -85,7 +82,9 @@
             <button type="submit" class="btn btn-default">Submit</button>
           </form>
           <ul class="nav navbar-nav navbar-right">
+            <!--
             <li><a href="create.html" onClick="return popup(this, 'create')">Create</a></li>
+            -->
             <li><a href="Login.html">Logout</a></li>
           </ul>
         </div><!--/.nav-collapse -->
@@ -166,9 +165,7 @@
                   <th scope="col">Likes</th>
                 </tr>
               </thead>
-              <tbody>
-                <div id ="resultDiv">
-                </div>           
+              <tbody>         
               </tbody>
             </table>
           </section>      
@@ -195,6 +192,8 @@
               </textarea> 
               <br/>
               <input id = "submit" type="button" value="Add new">
+              <br/>
+              <input id = "request" type="button" value="request">
             </form>
           </section>
         </article>
@@ -208,7 +207,9 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script>window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')</script>
-    <script src="js/jquery-3.1.1.min"></script>
+    <!--
+    <script src="js/jquery-3.1.1.min.js"></script>
+    -->
     <script src="js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="js/ie10-viewport-bug-workaround.js"></script>

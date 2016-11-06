@@ -13,19 +13,9 @@ function initMap() {
 
   // This event listener calls addMarker() when the map is clicked.
   google.maps.event.addListener(map, 'click', function(event) {
-  addMarker(event.latLng, map);
+    addMarker(event.latLng, map);
   });
 
-  // Create the DIV to hold the control and call the CenterControl()
-  // constructor passing in this DIV.
-  var createControlDiv = document.createElement('div');
-  var createControl = new CreateControl(createControlDiv, map);
-  var createControlDiv1 = document.createElement('div');
-  var createControl1 = new CreateControl1(createControlDiv1, map);
-
-  createControlDiv.index = 1;
-  map.controls[google.maps.ControlPosition.BOTTOM_RIGHT].push(createControlDiv);
-  map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(createControlDiv1);
 }
 
 
@@ -41,10 +31,23 @@ function addMarker(location, map) {
   });
 }
 
-google.maps.event.addDomListener(window, 'load', initialize);
+function pinDown(lat, lng) {
+  var map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: 33.7756, lng: -84.3963},
+    zoom: 17,
+    disableDoubleClickZoom: true,
+    streetViewControl: false,
+  });
+  var myLatLng = {lat, lng};
+  var marker = new google.maps.Marker({
+    position: myLatLng,
+    map: map
+  });
+}
 
-   
+//google.maps.event.addDomListener(window, 'load', initialize);
 
+  
       /**
        * The CenterControl adds a control to the map that create gripe
        * This constructor takes the control DIV as an argument.

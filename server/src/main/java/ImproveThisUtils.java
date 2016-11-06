@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 public class ImproveThisUtils {
     private static final String USER_INFO_BUCKET = "user.info";
-    private static final String SUGGESTION_BUCKET = "improvement.suggestions";
+    private static final String SUGGESTION_BUCKET = "improvement.suggestions2";
 
     public static String s3Key( String improvementState, String region, String improvementId ) {
         StringBuilder sb = new StringBuilder( 100 );
