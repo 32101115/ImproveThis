@@ -16,4 +16,11 @@ public class apiTest {
         ImprovementSuggestion sug = ImproveThisUtils.getImprovementSuggestion( "ONGOING", "CoC", "1" );
         System.out.println( sug.toString() );
     }
+
+    @Test
+    public void testPostComment(){
+        ImproveThisUtils.postComment( "ONGOING", "CoC", "1", "qkorner3", "This is a good idea" );
+        ImprovementSuggestion sug = ImproveThisUtils.getImprovementSuggestion( "ONGOING", "CoC", "1" );
+        System.out.println( sug.toString() );
+    }
 }

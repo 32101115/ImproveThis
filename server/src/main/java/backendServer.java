@@ -25,5 +25,13 @@ public class backendServer {
             ImproveThisUtils.upvote( "ONGOING", region, improvementId );
             return ImproveThisUtils.getImprovementFromRequest( "ONGOING", region, improvementId );
         } );
+        get( "/postComment/*", ( req, res ) -> {
+            String region = req.queryParams( "region" );
+            String comment = req.queryParams( "comment" );
+            String improvementId = req.queryParams( "improvementId" );
+            String userId = req.queryParams( "userId" );
+            ImproveThisUtils.postComment( "ONGOING", region, improvementId, userId, comment );
+            return ImproveThisUtils.getImprovementFromRequest( "ONGOING", region, improvementId );
+        } );
     }
 }

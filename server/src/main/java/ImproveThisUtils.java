@@ -5,6 +5,7 @@ import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
+import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -15,11 +16,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class ImproveThisUtils {
     private static final String USER_INFO_BUCKET = "user.info";
-    private static final String SUGGESTION_BUCKET = "improvement.suggestions2";
+    private static final String SUGGESTION_BUCKET = "improvement.suggestions";
 
     public static String s3Key( String improvementState, String region, String improvementId ) {
         StringBuilder sb = new StringBuilder( 100 );
@@ -85,9 +87,33 @@ public class ImproveThisUtils {
                 .discussionCount( 0 )
                 .creationDate( DateTime.now().toString() )
                 .build();
+        postSuggestion( suggestion );
+    }
+
+    public static String getImprovementFromRequest( String improvementState, String region, String improvementId ) {
+        ImprovementSuggestion suggestion = getImprovementSuggestion( improvementState, region, improvementId );
+        Gson gson = new Gson();
+        String outputJson = gson.toJson( suggestion );
+        return outputJson;
+    }
+
+    private static ImprovementSuggestion addComment( ImprovementSuggestion suggestion, String userId, String comment ) {
+        ImprovementDiscussion discussion = new ImprovementDiscussion();
+        List<ImprovementDiscussion> discussions = suggestion.getDiscussionList();
+        discussion.setContents( comment );
+        discussion.setPictureList( Lists.newArrayList() );
+        discussion.setUserId( userId );
+        discussion.setSequenceId( suggestion.getDiscussionCount() );
+        suggestion.setDiscussionCount( suggestion.getDiscussionCount() + 1 );
+        discussions.add( discussion );
+        suggestion.setDiscussionList( discussions );
+        return suggestion;
+    }
+
+    private static void postSuggestion( ImprovementSuggestion suggestion ) {
         try {
             AmazonS3 s3Client = new AmazonS3Client( new ProfileCredentialsProvider() );
-            String s3Key = s3Key( "ONGOING", region, improvementId );
+            String s3Key = s3Key( suggestion.getImprovementState(), suggestion.getRegion(), suggestion.getImprovementId() );
             String suggestionJson = new Gson().toJson( suggestion );
             InputStream jsonStream = IOUtils.toInputStream( suggestionJson, "UTF-8" );
             Long length = (long) suggestionJson.length();
@@ -98,11 +124,12 @@ public class ImproveThisUtils {
             System.err.println( "error" );
         }
     }
-
-    public static String getImprovementFromRequest( String improvementState, String region, String improvementId ) {
+    public static void postComment( String improvementState, String region, String improvementId, String userId, String comment ) {
         ImprovementSuggestion suggestion = getImprovementSuggestion( improvementState, region, improvementId );
-        Gson gson = new Gson();
-        String outputJson = gson.toJson( suggestion );
-        return outputJson;
+        if ( suggestion.getDiscussionList() == null ) {
+            suggestion.setDiscussionList( Lists.newArrayList() );
+        }
+        addComment( suggestion, userId, comment );
+        postSuggestion( suggestion );
     }
 }
