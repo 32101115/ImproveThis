@@ -50,8 +50,7 @@ public class ImproveThisUtils {
         }
         JsonParser parser = new JsonParser();
         JsonObject jsonData = parser.parse( data ).getAsJsonObject();
-        ImprovementSuggestion suggestion = new Gson().fromJson( data, ImprovementSuggestion.class );
-        return suggestion;
+        return new Gson().fromJson( data, ImprovementSuggestion.class );
     }
 
     public static void upvote( String improvementState, String region, String improvementId ) {

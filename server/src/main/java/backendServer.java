@@ -19,9 +19,11 @@ public class backendServer {
             ImproveThisUtils.postImprovement( region,improvementId, xPosition, yPosition, title, description, creator );
             return ImproveThisUtils.getImprovementFromRequest( "ONGOING", region, improvementId );
         } );
-        get( "/upvote/*/*/*", ( req, res ) -> {
-            ImproveThisUtils.upvote( req.splat()[0], req.splat()[1], req.splat()[2] );
-            return ImproveThisUtils.getImprovementSuggestion( req.splat()[0], req.splat()[1], req.splat()[2] ).toString();
+        get( "/upvote/*", ( req, res ) -> {
+            String region = req.queryParams( "region" );
+            String improvementId = req.queryParams( "improvementId" );
+            ImproveThisUtils.upvote( "ONGOING", region, improvementId );
+            return ImproveThisUtils.getImprovementFromRequest( "ONGOING", region, improvementId );
         } );
     }
 }
