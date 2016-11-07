@@ -1,10 +1,7 @@
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.GetObjectRequest;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.services.s3.model.*;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -24,16 +21,13 @@ public class ImproveThisUtils {
     private static final String SUGGESTION_BUCKET = "improvement.suggestions";
 
     public static String s3Key( String improvementState, String region, String improvementId ) {
-        StringBuilder sb = new StringBuilder( 100 );
 
-        sb.append( improvementState );
-        sb.append( "/" );
-        sb.append( region );
-        sb.append( "/" );
-        sb.append( improvementId );
-        sb.append( "/improvementInstance.json" );
-
-        return sb.toString();
+        return improvementState +
+               "/" +
+               region +
+               "/" +
+               improvementId +
+               "/improvementInstance.json";
     }
 
     public static ImprovementSuggestion getImprovementSuggestion( String improvementState, String region,
@@ -75,18 +69,18 @@ public class ImproveThisUtils {
     public static void postImprovement( String region, String improvementId, Double xPosition, Double yPosition,
                                         String title, String description, String creator ) {
         ImprovementSuggestion suggestion = ImprovementSuggestion.builder()
-                .improvementState( "ONGOING" )
-                .creator( creator )
-                .region( region )
-                .improvementId( improvementId )
-                .xPosition( xPosition )
-                .yPosition( yPosition )
-                .title( title )
-                .description( description )
-                .upvotes( 0 )
-                .discussionCount( 0 )
-                .creationDate( DateTime.now().toString() )
-                .build();
+                                                                .improvementState( "ONGOING" )
+                                                                .creator( creator )
+                                                                .region( region )
+                                                                .improvementId( improvementId )
+                                                                .xPosition( xPosition )
+                                                                .yPosition( yPosition )
+                                                                .title( title )
+                                                                .description( description )
+                                                                .upvotes( 0 )
+                                                                .discussionCount( 0 )
+                                                                .creationDate( DateTime.now().toString() )
+                                                                .build();
         postSuggestion( suggestion );
     }
 
@@ -113,7 +107,8 @@ public class ImproveThisUtils {
     private static void postSuggestion( ImprovementSuggestion suggestion ) {
         try {
             AmazonS3 s3Client = new AmazonS3Client( new ProfileCredentialsProvider() );
-            String s3Key = s3Key( suggestion.getImprovementState(), suggestion.getRegion(), suggestion.getImprovementId() );
+            String s3Key =
+                    s3Key( suggestion.getImprovementState(), suggestion.getRegion(), suggestion.getImprovementId() );
             String suggestionJson = new Gson().toJson( suggestion );
             InputStream jsonStream = IOUtils.toInputStream( suggestionJson, "UTF-8" );
             Long length = (long) suggestionJson.length();
@@ -124,12 +119,27 @@ public class ImproveThisUtils {
             System.err.println( "error" );
         }
     }
-    public static void postComment( String improvementState, String region, String improvementId, String userId, String comment ) {
+
+    public static void postComment( String improvementState, String region, String improvementId, String userId,
+                                    String comment ) {
         ImprovementSuggestion suggestion = getImprovementSuggestion( improvementState, region, improvementId );
         if ( suggestion.getDiscussionList() == null ) {
             suggestion.setDiscussionList( Lists.newArrayList() );
         }
         addComment( suggestion, userId, comment );
         postSuggestion( suggestion );
+    }
+
+    public static String getAllImprovementByRegion( String improvementState, String region ) {
+        AmazonS3 s3Client = new AmazonS3Client( new ProfileCredentialsProvider() );
+        final ListObjectsRequest req = new ListObjectsRequest().withBucketName( SUGGESTION_BUCKET )
+                                                               .withPrefix( improvementState + "/" + region );
+        final ObjectListing listing = s3Client.listObjects( req );
+        List<S3ObjectSummary> summaries = listing.getObjectSummaries();
+        List<String> instanceNames = summaries.stream()
+                                              .filter( item -> item.getKey().contains( "improvementInstance.json" ) )
+                                              .map( item -> item.getKey().split( "/" )[2] )
+                                              .collect( Collectors.toList() );
+        return new Gson().toJson( instanceNames );
     }
 }
