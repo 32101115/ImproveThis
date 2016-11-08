@@ -13,5 +13,5 @@
     tools:showIn="@layout/app_bar_main">
 
     <include
-        layout="@layout/activity_maps"/>
+        layout="@layout/activity_maps" />
 </RelativeLayout>
