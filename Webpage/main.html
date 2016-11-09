@@ -82,9 +82,7 @@
             <button type="submit" class="btn btn-default">Submit</button>
           </form>
           <ul class="nav navbar-nav navbar-right">
-            <!--
             <li><a href="create.html" onClick="return popup(this, 'create')">Create</a></li>
-            -->
             <li><a href="Login.html">Logout</a></li>
           </ul>
         </div><!--/.nav-collapse -->
@@ -161,7 +159,6 @@
                   <th scope="col">Description</th>             
                   <th scope="col">Name</th>
                   <th scope="col">Date</th>
-                  <th scope="col">View</th>
                   <th scope="col">Likes</th>
                 </tr>
               </thead>
@@ -174,26 +171,22 @@
               <h2>Add a New</h2>
             </header>
             <form id="addNew">
-              <input id="newNumber" name="newNumber" type="hidden">
-              <input id="newView" name="newView" type="hidden">
-              <input id="newLike" name="newLike" type="hidden">
               <label for="newName">Name:</label>
-              <input id="newName" name="newName" type="text" required>
+              <input id="newName" name="creator" type="text" required> 
               <br/>
-              <label for="newDate">Date:</label>
-              <input id="newDate" name="newDate" type="datetime" required>   
+              <label for="newRegion">Region:</label>
+              <input id="newRegion" name="region" type="text" required> 
               <br/>
               <label for="newTitle">Title:</label>
-              <input id="newTitle" name="newTitle" type="text" required>   
+              <input id="newTitle" name="title" type="text" required>   
               <br/>
               <label for="newDesc">Description:</label>
               <br/>
-              <textarea id="newDesc" name="newDesc" type="text" style="width:500px;height:200px;padding:2%;font:1.4em/1.6em;">
+              <textarea id="newDesc" name="description" type="text" style="width:500px;height:200px;">
               </textarea> 
               <br/>
-              <input id = "submit" type="button" value="Add new">
+              <button id = "submit" type="button">Add new</button>
               <br/>
-              <input id = "request" type="button" value="request">
             </form>
           </section>
         </article>

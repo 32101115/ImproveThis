@@ -1,11 +1,15 @@
 
 var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 var labelIndex = 0;
+var newlat;
+var newlng;
+var map;
 
 function initMap() {
-  var map = new google.maps.Map(document.getElementById('map'), {
+  var gt = {lat: 33.7756, lng: -84.3963};
+  map = new google.maps.Map(document.getElementById('map'), {
     
-    center: {lat: 33.7756, lng: -84.3963},
+    center: gt,
     zoom: 17,
     disableDoubleClickZoom: true,
     streetViewControl: false,
@@ -14,10 +18,17 @@ function initMap() {
   // This event listener calls addMarker() when the map is clicked.
   google.maps.event.addListener(map, 'click', function(event) {
     addMarker(event.latLng, map);
+    newlat = event.latLng.lat();
+    newlng = event.latLng.lng();
   });
 
 }
-
+function getLat() {
+  return newlat;
+}
+function getLng() {
+  return newlng;
+}
 
 
 // Adds a marker to the map.
@@ -32,18 +43,20 @@ function addMarker(location, map) {
 }
 
 function pinDown(lat, lng) {
-  var map = new google.maps.Map(document.getElementById('map'), {
+  /*var map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 33.7756, lng: -84.3963},
     zoom: 17,
     disableDoubleClickZoom: true,
     streetViewControl: false,
-  });
+  });*/
   var myLatLng = {lat, lng};
   var marker = new google.maps.Marker({
     position: myLatLng,
     map: map
   });
 }
+
+
 
 //google.maps.event.addDomListener(window, 'load', initialize);
 
