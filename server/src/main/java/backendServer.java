@@ -1,6 +1,6 @@
 import static spark.Spark.get;
 
-public class backendServer {
+public class BackendServer {
     public static void main( String[] args ) {
         get( "/getImprovement/*", ( req, res ) -> {
             String region           = req.queryParams( "region" );
@@ -37,6 +37,10 @@ public class backendServer {
         get( "/getImprovementNames/*", ( req, res ) -> {
             String region = req.queryParams( "region" );
             return ImproveThisUtils.getAllImprovementByRegion( "ONGOING", region );
+        } );
+        get( "/getTopTenImprovements/*", ( req, res ) -> {
+            String region = req.queryParams( "region" );
+            return ImproveThisUtils.getTopTenImprovements( region );
         } );
     }
 }

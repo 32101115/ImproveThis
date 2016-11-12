@@ -3,6 +3,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.*;
 import com.google.common.collect.Lists;
+import com.google.gson.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -13,6 +14,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -61,6 +65,7 @@ public class ImproveThisUtils {
             ObjectMetadata md = new ObjectMetadata();
             md.setContentLength( length );
             s3Client.putObject( new PutObjectRequest( SUGGESTION_BUCKET, s3Key, jsonStream, md ) );
+            updateTopTen( suggestion );
         } catch ( IOException e ) {
             System.err.println( "error" );
         }
@@ -128,6 +133,7 @@ public class ImproveThisUtils {
         }
         addComment( suggestion, userId, comment );
         postSuggestion( suggestion );
+        updateTopTen( suggestion );
     }
 
     public static String getAllImprovementByRegion( String improvementState, String region ) {
@@ -141,5 +147,113 @@ public class ImproveThisUtils {
                                               .map( item -> item.getKey().split( "/" )[2] )
                                               .collect( Collectors.toList() );
         return new Gson().toJson( instanceNames );
+    }
+
+    private static void updateTopTen( ImprovementSuggestion suggestion ) {
+        AmazonS3 s3Client = new AmazonS3Client( new ProfileCredentialsProvider() );
+        String s3Key = s3Key( suggestion.getImprovementState(), suggestion.getRegion() );
+        String data;
+        try {
+            S3Object obj = s3Client.getObject( new GetObjectRequest( SUGGESTION_BUCKET, s3Key ) );
+            InputStream dataStream = obj.getObjectContent();
+            BufferedReader r = new BufferedReader( new InputStreamReader( dataStream ) );
+            data = r.lines().collect( Collectors.joining( "\n" ) );
+        } catch ( Exception e ) {
+            String ranksJson = new Gson().toJson( Lists.newArrayList() );
+            try {
+                InputStream jsonStream = IOUtils.toInputStream( ranksJson, "UTF-8" );
+                Long length = (long) ranksJson.length();
+                ObjectMetadata md = new ObjectMetadata();
+                md.setContentLength( length );
+                s3Client.putObject( new PutObjectRequest( SUGGESTION_BUCKET, s3Key, jsonStream, md ) );
+                S3Object obj = s3Client.getObject( new GetObjectRequest( SUGGESTION_BUCKET, s3Key ) );
+                InputStream dataStream = obj.getObjectContent();
+                BufferedReader r = new BufferedReader( new InputStreamReader( dataStream ) );
+                data = r.lines().collect( Collectors.joining( "\n" ) );
+            } catch ( Exception e1 ) {
+                System.err.println( "error" );
+                return;
+            }
+        }
+        Type listType = new TypeToken<List<ImprovementPopularity>>() {}.getType();
+        List<ImprovementPopularity> topTenList = new Gson().fromJson( data, listType );
+        if ( topTenList == null ) {
+            topTenList = Lists.newArrayList();
+        }
+        int index = -1;
+        for ( int i = 0; i < topTenList.size(); i++ ) {
+            if ( topTenList.get( i ).getImprovementId().equals( suggestion.getImprovementId() ) ) {
+                index = i;
+                break;
+            }
+        }
+        int popularity = suggestion.getDiscussionCount() * 2 + suggestion.getUpvotes();
+        if ( index == -1 ) {
+            if ( topTenList.size() == 10 && popularity > topTenList.get( 9 ).getPopularity() ) {
+                topTenList.remove( 9 );
+                ImprovementPopularity p = ImprovementPopularity.builder().improvementId( suggestion.getImprovementId() )
+                        .popularity( popularity ).region( suggestion.getRegion() ).build();
+                topTenList.add( p );
+            }
+            else if ( topTenList.size() < 10 ) {
+                ImprovementPopularity p = ImprovementPopularity.builder().improvementId( suggestion.getImprovementId() )
+                                                               .popularity( popularity )
+                                                               .region( suggestion.getRegion() ).build();
+                topTenList.add( p );
+            }
+        } else if ( index > 0 && popularity > topTenList.get( index - 1 ).getPopularity() ) {
+            topTenList.remove( index );
+            ImprovementPopularity p = ImprovementPopularity.builder().improvementId( suggestion.getImprovementId() )
+                                                           .popularity( popularity )
+                                                           .region( suggestion.getRegion() ).build();
+            topTenList.add( index - 1, p );
+        } else if ( index >= 0 ) {
+            topTenList.remove( index );
+            ImprovementPopularity p = ImprovementPopularity.builder().improvementId( suggestion.getImprovementId() )
+                                                           .popularity( popularity )
+                                                           .region( suggestion.getRegion() ).build();
+            topTenList.add( index, p );
+        }
+        String jsonList = new Gson().toJson( topTenList );
+        try {
+            InputStream jsonStream = IOUtils.toInputStream( jsonList, "UTF-8" );
+            Long length = (long) jsonList.length();
+            ObjectMetadata md = new ObjectMetadata();
+            md.setContentLength( length );
+            s3Client.putObject( new PutObjectRequest( SUGGESTION_BUCKET, s3Key, jsonStream, md ) );
+        } catch ( IOException e ) {
+            System.err.println( "error" );
+        }
+    }
+    private static void updateUserInfo( ImprovementSuggestion suggestion ) {
+        AmazonS3 s3Client = new AmazonS3Client( new ProfileCredentialsProvider() );
+        String s3Key = s3Key( suggestion.getImprovementState(), suggestion.getRegion() );
+
+    }
+    public static String getTopTenImprovements( String region ) {
+        AmazonS3 s3Client = new AmazonS3Client( new ProfileCredentialsProvider() );
+        String s3Key = s3Key( "ONGOING", region );
+        S3Object obj;
+        try {
+            obj = s3Client.getObject( new GetObjectRequest( SUGGESTION_BUCKET, s3Key ) );
+        } catch ( Exception e ) {
+            System.err.println( "error" );
+            return null;
+        }
+        InputStream dataStream = obj.getObjectContent();
+        BufferedReader r = new BufferedReader( new InputStreamReader( dataStream ) );
+        String data = r.lines().collect( Collectors.joining( "\n" ) );
+        try {
+            obj.close();
+        } catch ( Exception e ) {
+            System.out.println( "IOException" );
+            return null;
+        }
+        return data;
+    }
+    private static String s3Key( String improvementState, String region ) {
+        return improvementState +
+               "/" +
+               region + "/topTenImprovements.json";
     }
 }
