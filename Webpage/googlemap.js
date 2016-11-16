@@ -16,13 +16,13 @@ function initMap() {
   });
 
   // This event listener calls addMarker() when the map is clicked.
-  google.maps.event.addListener(map, 'click', function(event) {
-    addMarker(event.latLng, map);
+    google.maps.event.addListener(map, 'click', function(event) {
     newlat = event.latLng.lat();
     newlng = event.latLng.lng();
+    addMarker(event.latLng, map);
   });
-
 }
+
 function getLat() {
   return newlat;
 }
@@ -40,6 +40,7 @@ function addMarker(location, map) {
   label: labels[labelIndex++ % labels.length],
   map: map
   });
+
 }
 
 function pinDown(lat, lng) {
