@@ -14,6 +14,9 @@
 
 
     <title>ImproveThisApp</title>
+        <!--css file -->
+    <link rel="stylesheet" href="mainTable.css">
+    <link rel="stylesheet" href="comment.css">
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.max.css" rel="stylesheet">
@@ -27,6 +30,11 @@
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <script src="js/ie-emulation-modes-warning.js"></script>
+    <!--for JQuery Dialog box-->
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
 
     <!--this is for popup window for create -->
   <SCRIPT TYPE="text/javascript">
@@ -39,14 +47,11 @@
       return false; 
     }
   </SCRIPT>
-  <!--this is for create Json form -->
-  <script type="text/javascript" src="forumJson.js"></script>
   </head>
     <style> #map{
       height: 500px; width: 100%;
     }
     </style>
-    <link rel="stylesheet" href="mainTable.css">
   <body>
 
     <!-- Fixed navbar -->
@@ -95,44 +100,6 @@
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCypmMpjzvBvQaPIK1fQpEKZkbShQQmAe0&libraries=visualization&callback=initMap">
       </script>
       <script src="googlemap.js"></script>
-      <!--
-      <div class="table-responsive">
-        <table class="table table-striped">
-          <caption>Suggestions</caption>
-          <colgroup>
-            <col width="20">
-            <col width="400">
-            <col width="20">
-            <col width="20">
-            <col width="20">
-            <col width="20">
-          </colgroup>
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Title</th>
-              <th scope="col">Writer</th>
-              <th scope="col">Date</th>
-              <th scope="col">View</th>
-              <th scope="col">Likes</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="number">1</td>
-              <td class="title">
-                <a href="#">title here</a>
-              </td>
-              <td class="name">jitae</td>
-              <td class="date">10/20/2016</td>
-              <td class="hit">10</td>
-              <th><button class="btn btn-primary" type="button">
-                Likes <span class="badge">40</span>
-                  </button></th>
-            </tr>
-          </tbody>
-        </div>
-      -->
       <div id="page">
       <!-- [content] -->
       <section id="content">
@@ -194,8 +161,41 @@
       </section>
       <!-- [/content] -->
       </div>
-
-    </div> <!-- /container -->
+    </div> 
+    <!-- /container -->
+    <div id="detailBox" title="ImproveThis" style="display:none";>
+        <div class="titleBox">
+            <label>Suggestion</label>
+        </div>
+        <div class="commentBox">
+            Name:
+            <label id="Name"></label>
+            <br/>
+            Region:
+            <label id="Region"></label>
+            <br/>
+            Description:
+            <br/>
+            <label id="Desc"></label>
+            <br/>
+        </div>
+            <div class="actionBox">
+                <ul id="commentList">
+                </ul>
+                <form class="form-inline" role="form">
+                    <div class="form-group">
+                        <input id="form-control" type="text" placeholder="Your comments" />
+                    </div>
+                    <div class="form-group">
+                        <button id="add" type="button">Add</button>
+                    </div>
+                    <div>
+                      </br>
+                      <button id="like" type="button">Like it</button>
+                    </div>
+                </form>
+          </div>
+    </div>
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
@@ -206,5 +206,10 @@
     <script src="js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="js/ie10-viewport-bug-workaround.js"></script>
+    <script type="text/javascript" src="comment.js"></script>
+    <script type="text/javascript" src="forumJson.js"></script>
+
   </body>
+
+
 </html>
