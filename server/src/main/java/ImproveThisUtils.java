@@ -3,6 +3,8 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.*;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -15,9 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ImproveThisUtils {
@@ -49,7 +49,6 @@ public class ImproveThisUtils {
             return null;
         }
         JsonParser parser = new JsonParser();
-        JsonObject jsonData = parser.parse( data ).getAsJsonObject();
         return new Gson().fromJson( data, ImprovementSuggestion.class );
     }
 
@@ -92,8 +91,7 @@ public class ImproveThisUtils {
     public static String getImprovementFromRequest( String improvementState, String region, String improvementId ) {
         ImprovementSuggestion suggestion = getImprovementSuggestion( improvementState, region, improvementId );
         Gson gson = new Gson();
-        String outputJson = gson.toJson( suggestion );
-        return outputJson;
+        return gson.toJson( suggestion );
     }
 
     private static ImprovementSuggestion addComment( ImprovementSuggestion suggestion, String userId, String comment ) {
@@ -120,6 +118,7 @@ public class ImproveThisUtils {
             ObjectMetadata md = new ObjectMetadata();
             md.setContentLength( length );
             s3Client.putObject( new PutObjectRequest( SUGGESTION_BUCKET, s3Key, jsonStream, md ) );
+            updateUserInfo( suggestion, suggestion.getCreator(), false );
         } catch ( IOException e ) {
             System.err.println( "error" );
         }
@@ -134,6 +133,7 @@ public class ImproveThisUtils {
         addComment( suggestion, userId, comment );
         postSuggestion( suggestion );
         updateTopTen( suggestion );
+        updateUserInfo( suggestion, userId, true );
     }
 
     public static String getAllImprovementByRegion( String improvementState, String region ) {
@@ -225,10 +225,124 @@ public class ImproveThisUtils {
             System.err.println( "error" );
         }
     }
-    private static void updateUserInfo( ImprovementSuggestion suggestion ) {
+    private static void updateUserInfo( ImprovementSuggestion suggestion, String userId, Boolean isComment ) {
         AmazonS3 s3Client = new AmazonS3Client( new ProfileCredentialsProvider() );
-        String s3Key = s3Key( suggestion.getImprovementState(), suggestion.getRegion() );
-
+        String s3Key = s3Key( userId );
+        S3Object obj;
+        try {
+            obj = s3Client.getObject( new GetObjectRequest( USER_INFO_BUCKET, s3Key ) );
+        } catch ( Exception e ) {
+            createUser( userId, "123456" );
+            obj = s3Client.getObject( new GetObjectRequest( USER_INFO_BUCKET, s3Key ) );
+        }
+        InputStream dataStream = obj.getObjectContent();
+        BufferedReader r = new BufferedReader( new InputStreamReader( dataStream ) );
+        String data = r.lines().collect( Collectors.joining( "\n" ) );
+        UserInfo user = new Gson().fromJson( data, UserInfo.class );
+        if ( user.getSuggestions() == null ) {
+            user.setSuggestions( Maps.newHashMap() );
+        }
+        if ( user.getDiscussions() == null ) {
+            user.setDiscussions( Maps.newHashMap() );
+        }
+        if ( isComment ) {
+            Map<String, Set<String>> regionMap = user.getDiscussions();
+            if ( !user.getDiscussions().containsKey( suggestion.getRegion() ) ) {
+                Set<String> suggestionSet = Sets.newHashSet();
+                suggestionSet.add( suggestion.getImprovementId() );
+                regionMap.put( suggestion.getRegion(), suggestionSet );
+                user.setDiscussions( regionMap );
+            } else {
+                Set<String> suggestionSet = regionMap.get( suggestion.getRegion() );
+                suggestionSet.add( suggestion.getImprovementId() );
+                regionMap.put( suggestion.getRegion(), suggestionSet );
+                user.setDiscussions( regionMap );
+            }
+        } else {
+            Map<String, Set<String>> regionMap = user.getSuggestions();
+            if ( !regionMap.containsKey( suggestion.getRegion() ) ) {
+                Set<String> suggestionSet = Sets.newHashSet();
+                suggestionSet.add( suggestion.getImprovementId() );
+                regionMap.put( suggestion.getRegion(), suggestionSet );
+                user.setSuggestions( regionMap );
+            } else {
+                Set<String> suggestionSet = regionMap.get( suggestion.getRegion() );
+                suggestionSet.add( suggestion.getImprovementId() );
+                regionMap.put( suggestion.getRegion(), suggestionSet );
+                user.setSuggestions( regionMap );
+            }
+        }
+        InputStream jsonStream = null;
+        String jsonFile = new Gson().toJson( user );
+        try {
+            jsonStream = IOUtils.toInputStream( jsonFile, "UTF-8" );
+        } catch ( IOException e ) {
+            System.err.println( "error" );
+        }
+        Long length = (long) jsonFile.length();
+        ObjectMetadata md = new ObjectMetadata();
+        md.setContentLength( length );
+        s3Client.putObject( new PutObjectRequest( USER_INFO_BUCKET, s3Key, jsonStream, md ) );
+    }
+    public static void updatePassword( String userId, String oldPassword, String newPassword ) {
+        AmazonS3 s3Client = new AmazonS3Client( new ProfileCredentialsProvider() );
+        String s3Key = s3Key( userId );
+        S3Object obj;
+        try {
+        obj = s3Client.getObject( new GetObjectRequest( USER_INFO_BUCKET, s3Key ) );
+        } catch ( Exception e ) {
+            createUser( userId, newPassword );
+            obj = s3Client.getObject( new GetObjectRequest( USER_INFO_BUCKET, s3Key ) );
+        }
+        InputStream dataStream = obj.getObjectContent();
+        BufferedReader r = new BufferedReader( new InputStreamReader( dataStream ) );
+        String data = r.lines().collect( Collectors.joining( "\n" ) );
+        UserInfo user = new Gson().fromJson( data, UserInfo.class );
+        if ( !oldPassword.equals( user.getPassword() ) ) {
+            return;
+        }
+        user.setPassword( newPassword );
+        InputStream jsonStream = null;
+        String jsonFile = new Gson().toJson( user );
+        try {
+            jsonStream = IOUtils.toInputStream( jsonFile, "UTF-8" );
+        } catch ( IOException e ) {
+            System.err.println( "error" );
+        }
+        Long length = (long) jsonFile.length();
+        ObjectMetadata md = new ObjectMetadata();
+        md.setContentLength( length );
+        s3Client.putObject( new PutObjectRequest( USER_INFO_BUCKET, s3Key, jsonStream, md ) );
+    }
+    public static void createUser( String userId, String password ) {
+        AmazonS3 s3Client = new AmazonS3Client( new ProfileCredentialsProvider() );
+        String s3Key = s3Key( userId );
+        UserInfo newUser = UserInfo.builder().userId( userId ).discussions( Maps.newHashMap() )
+                .suggestions( Maps.newHashMap() ).password( password ).build();
+        String jsonFile = new Gson().toJson( newUser );
+        InputStream jsonStream = new InputStream() {
+            @Override
+            public int read() throws IOException {
+                return 0;
+            }
+        };
+        try {
+            jsonStream = IOUtils.toInputStream( jsonFile, "UTF-8" );
+        } catch ( IOException e ) {
+            System.err.println( "error" );
+        }
+        Long length = (long) jsonFile.length();
+        ObjectMetadata md = new ObjectMetadata();
+        md.setContentLength( length );
+        s3Client.putObject( new PutObjectRequest( USER_INFO_BUCKET, s3Key, jsonStream, md ) );
+    }
+    public static String getUserInfoFromRequest( String userId ) {
+        AmazonS3 s3Client = new AmazonS3Client( new ProfileCredentialsProvider() );
+        String s3Key = s3Key( userId );
+        S3Object obj = s3Client.getObject( new GetObjectRequest( USER_INFO_BUCKET, s3Key ) );
+        InputStream dataStream = obj.getObjectContent();
+        BufferedReader r = new BufferedReader( new InputStreamReader( dataStream ) );
+        return r.lines().collect( Collectors.joining( "\n" ) );
     }
     public static String getTopTenImprovements( String region ) {
         AmazonS3 s3Client = new AmazonS3Client( new ProfileCredentialsProvider() );
@@ -255,5 +369,27 @@ public class ImproveThisUtils {
         return improvementState +
                "/" +
                region + "/topTenImprovements.json";
+    }
+    private static String s3Key( String userId ) {
+        return userId + "/userInfo.json";
+    }
+    public static String login( String userId, String password ) {
+        LoginStatus status = new LoginStatus( false );
+        AmazonS3 s3Client = new AmazonS3Client( new ProfileCredentialsProvider() );
+        String s3Key = s3Key( userId );
+        S3Object obj;
+        try {
+            obj = s3Client.getObject( new GetObjectRequest( USER_INFO_BUCKET, s3Key ) );
+        } catch ( Exception e ) {
+            return new Gson().toJson( status );
+        }
+        InputStream dataStream = obj.getObjectContent();
+        BufferedReader r = new BufferedReader( new InputStreamReader( dataStream ) );
+        String data = r.lines().collect( Collectors.joining( "\n" ) );
+        UserInfo user = new Gson().fromJson( data, UserInfo.class );
+        if ( password.equals( user.getPassword() ) ) {
+            status.setLoginStatus( true );
+        }
+        return new Gson().toJson( status );
     }
 }

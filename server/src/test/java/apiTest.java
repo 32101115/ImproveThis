@@ -23,4 +23,9 @@ public class apiTest {
         ImprovementSuggestion sug = ImproveThisUtils.getImprovementSuggestion( "ONGOING", "CoC", "1" );
         System.out.println( sug.toString() );
     }
+
+    @Test
+    public void testLogin() {
+        ImproveThisUtils.login( "qkorner34", "1234567" );
+    }
 }
