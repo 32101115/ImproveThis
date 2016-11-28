@@ -42,5 +42,23 @@ public class BackendServer {
             String region = req.queryParams( "region" );
             return ImproveThisUtils.getTopTenImprovements( region );
         } );
+
+        get( "/updatePassword/*", ( req, res ) -> {
+            String oldPassword = req.queryParams( "oldPassword" );
+            String userId = req.queryParams( "userId" );
+            String newPassword = req.queryParams( "newPassword" );
+            ImproveThisUtils.updatePassword( userId, oldPassword, newPassword );
+            return ImproveThisUtils.getUserInfoFromRequest( userId );
+        } );
+        get( "/getUserInfo/*", ( req, res ) -> ImproveThisUtils
+                .getUserInfoFromRequest( req.queryParams( "userId" ) ) );
+        get( "/login/*", ( req, res ) -> ImproveThisUtils
+                .login( req.queryParams( "userId" ), req.queryParams( "password" ) ) );
+        get( "/createUser/*", ( req, res ) -> {
+            String userId = req.queryParams( "userId" );
+            String password = req.queryParams( "password" );
+            ImproveThisUtils.createUser( userId, password );
+            return ImproveThisUtils.getUserInfoFromRequest( userId );
+        } );
     }
 }
