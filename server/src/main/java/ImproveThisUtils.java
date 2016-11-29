@@ -48,7 +48,6 @@ public class ImproveThisUtils {
             System.out.println( "IOException" );
             return null;
         }
-        JsonParser parser = new JsonParser();
         return new Gson().fromJson( data, ImprovementSuggestion.class );
     }
 
@@ -71,7 +70,7 @@ public class ImproveThisUtils {
     }
 
     public static void postImprovement( String region, String improvementId, Double xPosition, Double yPosition,
-                                        String title, String description, String creator ) {
+                                        String title, String description, String creator, String location ) {
         ImprovementSuggestion suggestion = ImprovementSuggestion.builder()
                                                                 .improvementState( "ONGOING" )
                                                                 .creator( creator )
@@ -84,6 +83,7 @@ public class ImproveThisUtils {
                                                                 .upvotes( 0 )
                                                                 .discussionCount( 0 )
                                                                 .creationDate( DateTime.now().toString() )
+                                                                .location( location )
                                                                 .build();
         postSuggestion( suggestion );
     }
