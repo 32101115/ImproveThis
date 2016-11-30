@@ -11,14 +11,7 @@ function openComment(id) {
               method: 'GET',
               dataType: 'json',
               success: function(getData) {
-                    document.getElementById("Name").innerHTML = getData.creator;
-                    document.getElementById("Region").innerHTML = getData.location;
-                    document.getElementById("Desc").innerHTML = getData.description;
-                    var temp = $('#commentList');
-                    for (var i = 0; i < getData.discussionCount; i++) {
-                        var obj = getData.discussionList[i];
-                        temp.append("<li>"+obj.userId +": "+obj.contents+"</li>");
-                    }
+                    displayComment(getData);
               },
               error: function() {
                       alert('error loading data(comment list)');
@@ -73,12 +66,24 @@ $(function () {
             });
 });  
 $('#detailBox').on('dialogclose', function(event) {
-                    deleteTable(Id);
-                    //updateTable(Id);
-                    //createTable();
+    deleteTable(Id);
+    deleteComment();
  });
 function getCommenter(commenter) {
     this.commenter = commenter;
-    //console.log(creatorId);
-  }
+}
+function displayComment(getData) {
+    document.getElementById("Name").innerHTML = getData.creator;
+    document.getElementById("Region").innerHTML = getData.location;
+    document.getElementById("Desc").innerHTML = getData.description;
+    var temp = $('#commentList');
+    for (var i = 0; i < getData.discussionCount; i++) {
+        var obj = getData.discussionList[i];
+        temp.append("<li>"+obj.userId +": "+obj.contents+"</li>");
+    }
+}
+function deleteComment() {
+    $("#commentList").html(""); 
+
+}
 

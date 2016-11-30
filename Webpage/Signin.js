@@ -36,3 +36,6 @@ $(function () {
 	  	});
 	});  
 });
+function logOut() {
+	location.reload();
+}

@@ -67,9 +67,7 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="#">Highest rating</a></li>
-                <li><a href="#">Newest</a></li>
-                <li><a href="#">Closest</a></li>
+                <li><a onclick=getPopularity()>Top 10 popularity</a></li>
               </ul>
             </li>
           </ul>
@@ -88,10 +86,7 @@
             </ul>
           </div>
           <ul class="nav navbar-nav navbar-right">
-            <!--
-            <li><a href="create.html" onClick="return popup(this, 'create')">Create</a></li>
-            -->
-            <li><a href="Login.html">Logout</a></li>
+            <li><a onclick=logOut()>Logout</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -169,7 +164,7 @@
         <div class="titleBox">
             <label>Suggestion</label>
         </div>
-        <div class="commentBox">
+        <div id="commentBox">
             Name:
             <label id="Name"></label>
             <br/>
@@ -181,21 +176,21 @@
             <label id="Desc"></label>
             <br/>
         </div>
-            <div class="actionBox">
-                <ul id="commentList">
-                </ul>
-                <form class="form-inline" role="form">
-                    <div class="form-group">
-                        <input id="form-control" type="text" placeholder="Your comments" />
-                    </div>
-                    <div class="form-group">
-                        <button id="add" type="button">Add</button>
-                    </div>
-                    <div>
-                      </br>
-                      <button id="like" type="button">Like it</button>
-                    </div>
-                </form>
+        <div class="actionBox">
+            <ul id="commentList">
+            </ul>
+            <form class="form-inline" role="form">
+                <div class="form-group">
+                    <input id="form-control" type="text" placeholder="Your comments" />
+                </div>
+                <div class="form-group">
+                    <button id="add" type="button">Add</button>
+                </div>
+                <div>
+                  </br>
+                  <button id="like" type="button">Like it</button>
+                </div>
+            </form>
           </div>
     </div>
     <!-- Bootstrap core JavaScript

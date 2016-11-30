@@ -4,6 +4,7 @@ var labelIndex = 0;
 var newlat;
 var newlng;
 var map;
+var markers = [];
 
 function initMap() {
   var gt = {lat: 33.7756, lng: -84.3963};
@@ -55,84 +56,20 @@ function pinDown(lat, lng) {
     position: myLatLng,
     map: map
   });
+          markers.push(marker);
+
+}
+// Sets the map on all markers in the array.
+function setMapOnAll(map) {
+  for (var i = 0; i < markers.length; i++) {
+    markers[i].setMap(map);
+  }
 }
 
-
-
-//google.maps.event.addDomListener(window, 'load', initialize);
-
-  
-      /**
-       * The CenterControl adds a control to the map that create gripe
-       * This constructor takes the control DIV as an argument.
-       * @constructor
-       */
-      /*function CreateControl(controlDiv, map) {
-
-        // Set CSS for the control border.
-        var controlUI = document.createElement('div');
-        controlUI.style.backgroundColor = 'gray';
-        //controlUI.style.border = '2px solid #fff';
-        controlUI.style.borderRadius = '3px';
-        controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
-        controlUI.style.cursor = 'pointer';
-        controlUI.style.marginBottom = '22px';
-        //controlUI.style.textAlign = 'center';
-        controlUI.title = 'Click to create a gripe';
-        controlDiv.appendChild(controlUI);
-
-        // Set CSS for the control interior.
-        var controlText = document.createElement('div');
-        controlText.style.color = 'white';
-        controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
-        controlText.style.fontSize = '16px';
-        controlText.style.lineHeight = '38px';
-        controlText.style.paddingLeft = '5px';
-        controlText.style.paddingRight = '5px';
-        controlText.innerHTML = 'create';
-        controlUI.appendChild(controlText);
-
-        // Setup the click event listeners: 
-        controlUI.addEventListener('click', function() {
-        });
-
-      }*/
-
-      /**
-       * The CenterControl adds a control to the map that create gripe
-       * This constructor takes the control DIV as an argument.
-       * @constructor
-       */
-      /*function CreateControl1(controlDiv, map) {
-
-        // Set CSS for the control border.
-        var controlUI = document.createElement('div');
-        controlUI.style.backgroundColor = 'gray';
-        //controlUI.style.border = '2px solid #fff';
-        controlUI.style.borderRadius = '3px';
-        controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
-        controlUI.style.cursor = 'pointer';
-        controlUI.style.marginBottom = '22px';
-        //controlUI.style.textAlign = 'center';
-        controlUI.title = 'Click to create a gripe';
-        controlDiv.appendChild(controlUI);
-
-        // Set CSS for the control interior.
-        var controlText = document.createElement('div');
-        controlText.style.color = 'white';
-        controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
-        controlText.style.fontSize = '16px';
-        controlText.style.lineHeight = '38px';
-        controlText.style.paddingLeft = '5px';
-        controlText.style.paddingRight = '5px';
-        controlText.innerHTML = 'create';
-        controlUI.appendChild(controlText);
-
-        // Setup the click event listeners: 
-        controlUI.addEventListener('click', function() {
-        });
-
-      }*/
+function deleteMarkers() {
+    setMapOnAll(null);
+            markers = [];
+}
 
 
 
