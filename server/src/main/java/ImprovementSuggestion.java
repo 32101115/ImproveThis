@@ -14,6 +14,7 @@ public class ImprovementSuggestion {
     private String                      improvementState;
     private String                      region;
     private String                      improvementId;
+    private String                      location;
     private Double                      xPosition;
     private Double                      yPosition;
     private String                      creator;

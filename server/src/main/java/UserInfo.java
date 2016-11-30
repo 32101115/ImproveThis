@@ -3,8 +3,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 @Data
@@ -13,6 +13,7 @@ import java.util.Map;
 @Builder
 public class UserInfo {
     private String userId;
-    private Map<String, List<String>> suggestions;
-    private Map<String, List<String>> discussions;
+    private String password;
+    private Map<String, Set<String>> suggestions;
+    private Map<String, Set<String>> discussions;
 }
