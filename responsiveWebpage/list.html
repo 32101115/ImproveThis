@@ -1,6 +1,4 @@
 <!DOCTYPE html>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -12,7 +10,9 @@
 <meta name="viewport" content="width = device-width, initial-scale = 1">
 <title>Bootstrap Tutorial</title>
 <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="css/responsive.css">
+<link rel="stylesheet" type="text/css" href="./css/responsive.css">
+<script src="./js/googlemap.js"></script>
+<script src="./js/anchor.js"></script>
 
 <style>
 
@@ -23,7 +23,6 @@
 
 <!-- CONTAINERS -->
 <!-- container puts padding around itself while container-fluid fills the whole screen. Bootstap grids require a container. -->
-<div class="container fill">
 
 <!-- page-header adds space aroundtext and enlarges it. It also adds an underline at the end -->
   <!--
@@ -88,31 +87,43 @@
 			</ul>
 	</nav> -->
 
-    <div class="container" class="col-12">
-		<h4>ImproveThis!<h4>
+<div class="container fill" class="col-12" id="one">
+	<div class="container" class="col-12">
+		<a class="btn btn-default" type="button" role="button" href="index.html" style="width:98%">Back to home</a>
+		<h1>All ideas:</h1>
 	</div>
 
-	<div id="map" class="col-12">
-      <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCypmMpjzvBvQaPIK1fQpEKZkbShQQmAe0&libraries=visualization&callback=initMap">
-      </script>
+	<div class="container" class="col-12">
+
+		<ul class="list-group">
+		  <li class="list-group-item">
+				<span class="tag tag-pill tag-success float-xs-right">5</span>
+				<h5 class="list-group-item-heading">List group item heading</h5>
+				<p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+  		</li>
+		  </li>
+		  <li class="list-group-item">
+		    <span class="tag tag-pill tag-success float-xs-right">2</span>
+				<h5 class="list-group-item-heading">List group item heading</h5>
+		    <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+		  </li>
+		  <li class="list-group-item">
+		    <span class="tag tag-pill tag-success float-xs-right">1</span>
+				<h5 class="list-group-item-heading">List group item heading</h5>
+		    <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+		  </li>
+		</ul>
 	</div>
-
-    <div class="container" class="col-12">
-    	<a class="btn btn-primary" type="button" role="button" href="add.html">Add idea</a>
-    	<a type="button" role="button" class="btn btn-primary" href="list.html">List view</a>
-  	</div>
-
-
-
-
 </div>
 
-<script>window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')</script>
-<script type="text/javascript" src="js/forumJson.js"></script>
+
+
+
+
+
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="js/googlemap.js"></script>
 
 </body>
 </html>

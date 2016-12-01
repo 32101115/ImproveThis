@@ -7,14 +7,14 @@ var id;
 var creatorId;
 var region;
 $(function () {
-    $.getJSON('http://5b63a9f6.ngrok.io/getImprovementNames/?region=CoC', function(data){
+    $.getJSON('http://bda7007d.ngrok.io/getImprovementNames/?region=CoC', function(data){
       for (var i = 0; i < data.length; i++) {
         if (isNaN(data[i])) {
           globalId = 0;
         } else {
           globalId = data[i];
           $.ajax({
-                url:'http://5b63a9f6.ngrok.io/getImprovement/?improvementState=ONGOING&region=CoC&improvementId='
+                url:'http://bda7007d.ngrok.io/getImprovement/?improvementState=ONGOING&region=CoC&improvementId='
                     +encodeURIComponent(globalId),
                 method: 'GET',
                 dataType: 'json',
@@ -106,7 +106,7 @@ function createTable() {
             + '<td>'+array[i].upvotes+'</td>'
           + '</tr>'
           )
-          pinDown(array[i].xPosition, array[i].yPosition);
+          pinDown(array[i].xPosition, array[i].yPosition, array[i].userId);
       }
   }
 }
@@ -120,7 +120,7 @@ function deleteTable(param) {
 function updateTable(param) {
   console.log(param);
   $.ajax({
-      url:'http://5b63a9f6.ngrok.io/getImprovement/?improvementState=ONGOING&region=CoC&improvementId='
+      url:'http://bda7007d.ngrok.io/getImprovement/?improvementState=ONGOING&region=CoC&improvementId='
               +encodeURIComponent(param),
       method: 'GET',
       dataType: 'json',
@@ -142,7 +142,7 @@ function updateTable(param) {
 
 function getPopularity() {
   $.ajax({
-      url:'http://5b63a9f6.ngrok.io/getTopTenImprovements/?region=CoC',
+      url:'http://bda7007d.ngrok.io/getTopTenImprovements/?region=CoC',
       method: 'GET',
       dataType: 'json',
       async: false,

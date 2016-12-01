@@ -18,37 +18,17 @@
 }
 
 #map{
-		height: 85%;
-	min-height: 85%;
+		height: 100%; 
+	min-height: 100%;
 		width: 100%;
     }
-
-#like{
-  width: 200px;
-  height: 80px;
-  float: right;
-
-}
 
 .fill{
 	height: 100%;
 	min-height: 100%;
-	padding: 20px !important;
+	padding: 0px !important;
 }
 
-.container > a{
-  width: 47%;
-  margin: 1%;
-  margin-bottom: 2%;
-}
-
-/*.container > a + a {
-  width: 47%;
-}*/
-
-#description {
-  height: 200px;
-}
 
 
 /*standard template edit always above*/
@@ -58,7 +38,7 @@
 html, body {
     height: 100%;
 }
-body {
+body {    
     /*padding-top: 75px;*/
 }
 body.navbar-more-show  {
@@ -133,7 +113,7 @@ body.navbar-more-show  {
 	border-width: 0px;
 }
 .navbar-more .navbar-nav > li > a {
-    color: rgb(64, 64, 64);
+    color: rgb(64, 64, 64);   
 }
 .navbar-more > .navbar-nav > li > a > span.menu-icon {
 	margin-left: 10px;

@@ -4,7 +4,7 @@ $(function () {
     $('#login').on('click', function() {
     	username = document.getElementById("username").value;
    		password = document.getElementById("password").value;
-        $.getJSON('http://5b63a9f6.ngrok.io/getUserInfo/?userId='+encodeURIComponent(username), function(getData){
+        $.getJSON('http://bda7007d.ngrok.io/getUserInfo/?userId='+encodeURIComponent(username), function(getData){
             if (password == getData.password) {
             	console.log("success");
             	getCreatorId(username);
@@ -20,7 +20,7 @@ $(function () {
     	    username = document.getElementById("username").value;
    			password = document.getElementById("password").value;
         $.ajax({
-            url:'http://5b63a9f6.ngrok.io/createUser/?userId='+encodeURIComponent(username)+
+            url:'http://bda7007d.ngrok.io/createUser/?userId='+encodeURIComponent(username)+
             	'&password='+encodeURIComponent(password),
             method: 'GET',
             dataType: 'json',

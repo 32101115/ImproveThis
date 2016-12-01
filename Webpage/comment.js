@@ -1,4 +1,4 @@
-var main = 'http://5b63a9f6.ngrok.io/getImprovement/?improvementState=ONGOING&region=CoC&improvementId=';
+var main = 'http://bda7007d.ngrok.io/getImprovement/?improvementState=ONGOING&region=CoC&improvementId=';
 var Id;
 var dialog;
 var commenter;
@@ -22,7 +22,7 @@ $(function () {
         $('#add').on('click', function() {
           if (commenter != null) {
             var newComment = document.getElementById('form-control').value;
-            var fullUrl = 'http://5b63a9f6.ngrok.io/postComment/?improvementState=ONGOING&region=CoC&improvementId='
+            var fullUrl = 'http://bda7007d.ngrok.io/postComment/?improvementState=ONGOING&region=CoC&improvementId='
                 +encodeURIComponent(Id)+'&comment='+encodeURIComponent(newComment)+'&userId='+encodeURIComponent(commenter);
               $.ajax({
                 type: 'GET',
@@ -44,7 +44,7 @@ $(function () {
           }); 
             $('#like').on('click', function() {
               if (commenter != null) {
-                var fullUrl = 'http://5b63a9f6.ngrok.io/upvote/?improvementState=ONGOING&region=CoC&improvementId='
+                var fullUrl = 'http://bda7007d.ngrok.io/upvote/?improvementState=ONGOING&region=CoC&improvementId='
                               +encodeURIComponent(Id);
                 var vote = 0;
                 $.ajax({
