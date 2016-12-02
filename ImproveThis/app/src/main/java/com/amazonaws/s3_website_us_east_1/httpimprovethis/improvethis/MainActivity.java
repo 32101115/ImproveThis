@@ -16,6 +16,6 @@ public class MainActivity extends AppCompatActivity {
         mWebView = (WebView) findViewById(R.id.activity_main_webview);
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
-        mWebView.loadUrl("http://improvethis.s3-website-us-east-1.amazonaws.com");
+        mWebView.loadUrl("https://canteen-water.org/login/?next=/");
     }
 }
