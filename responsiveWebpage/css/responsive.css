@@ -30,6 +30,12 @@
 
 }
 
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
 .fill{
 	height: 100%;
 	min-height: 100%;
