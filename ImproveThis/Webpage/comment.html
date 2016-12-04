@@ -1,0 +1,76 @@
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- The above 2 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="ImproveThisApp">
+    <meta name="author" content="jitae">
+
+    <!-- Note there is no responsive meta tag here -->
+
+
+    <title>ImproveThisApp</title>
+    <link rel="stylesheet" href="comment.css">
+
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.max.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/non-responsive.css" rel="stylesheet">
+
+    <script src="js/ie-emulation-modes-warning.js"></script>
+    </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="main.html">ImproveThis</a>
+        </div>
+      </div>
+    </nav>
+        <div id="suggestion">
+        </div>
+        <div class="detailBox">
+            <div class="titleBox">
+              <label>Suggestion</label>
+            </div>
+            <div class="commentBox">
+              Name:
+              <label id="Name"></label>
+              <br/>
+              Region:
+              <label id="Region"></label>
+              <br/>
+              Description:
+              <br/>
+              <label id="Desc"></label>
+              <br/>
+            </div>
+            <div class="actionBox">
+                <ul id="commentList">
+                </ul>
+                <form class="form-inline" role="form">
+                    <div class="form-group">
+                        <input id="form-control" type="text" placeholder="Your comments" />
+                    </div>
+                    <div class="form-group">
+                        <button id="add" type="button">Add</button>
+                    </div>
+                    <div>
+                    </br>
+                      <button id="like" type="button">Like it</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    <script>window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')</script>
+
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="comment.js"></script>
+    <script type="text/javascript" src="forumJson.js"></script>
+
+  </body> 
+</html>

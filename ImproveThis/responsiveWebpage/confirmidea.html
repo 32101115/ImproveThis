@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<!-- If IE use the latest rendering engine -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<!-- Set the page to the width of the device and set the zoon level -->
+<meta name="viewport" content="width = device-width, initial-scale = 1">
+<title>ImproveThis</title>
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="./css/responsive.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script type="text/javascript" src="./js/comment.js"></script>
+<script type="text/javascript" src="./js/forumJson.js"></script>
+
+
+<style>
+#showComments { display:inline-block; 
+       margin-left: 30px;
+       font-size:12px }
+</style>
+
+</head>
+<body>
+<div class="container fill" class="col-12" id="one">
+	<div class="container" class="col-12">
+		<a class="btn btn-default hidden-xs" type="button" role="button" href="overview.html">Back to home</a>
+		<a class="btn btn-default visible-xs" type="button" role="button" style="width:98%;" href="overview.html">Back to home</a>
+		<a class="btn btn-default hidden-xs" type="button" role="button" href="list.html">List of all ideas</a>
+		<a class="btn btn-default visible-xs" type="button" role="button" style="width:98%;" href="list.html">List of all ideas</a>
+		<img src="http://pictures.replayphotos.com/images/GT/lg/georgia-institute-of-technology-panoramas-automatically-imported-presbyterian-v-georgia-tech-gt-p-auto-00001lg.jpg" class="img-thumbnail" alt="Cinque Terre" width="100%" height="20%">
+		<div id='improvement'>
+			<label><h4>Title:</h4></label>
+			<small id='title'></small>
+			<br>
+			<label><h4>Creator:</h4></label>
+			<small id='creator'></small>
+			<br>
+			<label><h4>Description:</h4></label>
+			<p id='desc'></p>
+			<br>
+			<label><small>Date:</label>
+			<span id ='date'></span>
+			<br>
+			<label><small>Likes:</label>
+			<span id ='likes'></span>
+		</div>
+	</div>
+
+	<div class="container" class="col-12">
+		<h3>Comments:</h3>
+		<a class="btn btn-primary" type="button" role="button" href="#comment">Add new</a>
+		<a class="btn btn-success" type="button" role="button" a onclick=newLikes()>Like it?</a>
+
+	</div>
+
+	<div class="container" class="col-12">
+		<ul id="showComments"class="list-group">
+		</ul>
+	</div>
+
+	<div class="container fill">
+		<div class="container" class="col-12" id="comment">
+			<h3>Add new comment:</h3>
+			<form>
+				<div class="form-group" id="description">
+					<label for="description">Comment</label>
+					<textarea id="newComment" type="exampleTextArea" class="form-control" style="height:100%;" placeholder="Help to evolve the idea with your input!"></textarea>
+
+				</div>
+			</form>
+		</div>
+		<div class="container">
+			<a class="btn btn-primary" type=" button" role="button" a onclick=newComment();>Send</a>
+		</div>
+	</div>
+</div>
+<script>
+		setId();
+		var user = sessionStorage.getItem("user");
+		setCreator(user);
+</script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</body>
+</html>

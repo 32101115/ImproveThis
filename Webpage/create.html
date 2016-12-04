@@ -1,0 +1,83 @@
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- The above 2 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="ImproveThisApp">
+    <meta name="author" content="jitae">
+
+    <!-- Note there is no responsive meta tag here -->
+
+
+    <title>ImproveThisApp</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.max.css" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/non-responsive.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="js/ie-emulation-modes-warning.js"></script>
+  </head>
+    <style> #map{
+      height: 400px; width: 500px;
+    }
+    </style>
+    <style> #title{
+      width: 453px;
+    }
+    </style>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <!-- The mobile navbar-toggle button can be safely removed since you do not need it in a non-responsive implementation -->
+          <a class="navbar-brand" href="#">ImproveThis</a>
+        </div>
+      </div><!--/.nav-collapse -->
+    </nav>
+
+    <div class="container">
+      <!--
+      <div id="map"></div>
+      <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCypmMpjzvBvQaPIK1fQpEKZkbShQQmAe0&libraries=visualization&callback=initMap">
+      </script>
+      <script src="googlemap.js"></script>
+      -->
+
+      <section class="new-suggestion">     
+            <header>
+              <h2>Add a New</h2>
+            </header>
+            <form id="addNew">
+              <label for="newName">Name:</label>
+              <input id="newName" name="creator" type="text" required> 
+              <br/>
+              <label for="newRegion">Region:</label>
+              <input id="newRegion" name="region" type="text" required> 
+              <br/>
+              <label for="newTitle">Title:</label>
+              <input id="newTitle" name="title" type="text" required>   
+              <br/>
+              <label for="newDesc">Description:</label>
+              <br/>
+              <textarea id="newDesc" name="description" type="text" style="width:500px;height:200px;">
+              </textarea> 
+              <br/>
+              <button id = "submit" type="button">Add new</button>
+              <br/>
+            </form>
+          </section>
+    </div><!--container-->
+
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+  </body> 
+</html>

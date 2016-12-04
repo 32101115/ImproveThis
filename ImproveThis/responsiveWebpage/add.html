@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+<!-- If IE use the latest rendering engine -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<!-- Set the page to the width of the device and set the zoon level -->
+<meta name="viewport" content="width = device-width, initial-scale = 1">
+<title>ImproveThis</title>
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="./css/responsive.css">
+<script src="./js/googlemap.js"></script>
+<script type="text/javascript" src="./js/forumJson.js"></script>
+
+<style>
+
+</style>
+
+</head>
+<body>
+<script>
+         var COOKIES = {};
+         var cookieStr = document.cookie;
+         cookieStr.split(/; /).forEach(function(keyValuePair) { // not necessarily the best way to parse cookies
+             var cookieName = keyValuePair.replace(/=.*$/, ""); // some decoding is probably necessary
+             var cookieValue = keyValuePair.replace(/^[^=]*\=/, ""); // some decoding is probably necessary
+             COOKIES[cookieName] = cookieValue;
+         });
+         var userId = COOKIES["form/title"];
+         var user = sessionStorage.getItem("user");
+         saveId(user);
+</script>
+
+<div class="container fill" class="col-12" id="one">
+	<div class="container" class="col-12">
+	<h4>Select location:<h4>
+	</div>
+
+
+	<div id="map" class="col-12">
+      <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCypmMpjzvBvQaPIK1fQpEKZkbShQQmAe0&
+        	libraries=visualization&callback=initMap">
+      </script>
+      <script src="./js/googlemap.js"></script>
+	</div>
+
+  <div class="container" class="col-12">
+      <a class="btn btn-primary" type="button" role="button" href="#two">confirm</a>
+      <a type="button" role="button" class="btn btn-danger" href="overview.html">cancel</a>
+	</div>
+
+
+
+<div class="container fill">
+<div id="two" class="container" class="col-12">
+	<h2>Structure your idea:<h2>
+	</div>
+	<form>
+		<div class="form-group">
+    	<label for="exampleInputEmail1">Title</label>
+    	<input type="title" class="form-control" id="title" aria-describedby="emailHelp" placeholder="title">
+		</div>
+		<div class="form-group">
+			<label for="exampleInputEmail1">floor</label>
+			<input type="email" class="form-control" id="location" aria-describedby="emailHelp" placeholder="locatoin">
+		</div>
+		<div class="form-group" id="description">
+			<label for="description">description</label>
+			<textarea id="desc" type="exampleTextArea" class="form-control" style="height:100%;" placeholder="description"></textarea>
+		</div>
+	</form>
+</div>
+
+	<div class="container" class="col-12">
+      <a class="btn btn-primary" type="button" role="button" a onclick=sendIdea();>Send</a>
+      <a type="button" role="button" class="btn btn-danger" href="#one">back</a>
+	</div>
+
+</div>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="./js/googlemap.js"></script>
+<script type="text/javascript" src="./js/cookies.js"></script>
+
+</body>
+</html>

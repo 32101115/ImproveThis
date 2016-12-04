@@ -1,0 +1,216 @@
+
+<!DOCTYPE html>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- The above 2 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="ImproveThisApp">
+    <meta name="author" content="jitae">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Note there is no responsive meta tag here -->
+
+
+    <title>ImproveThisApp</title>
+        <!--css file -->
+    <link rel="stylesheet" href="mainTable.css">
+    <link rel="stylesheet" href="comment.css">
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.max.css" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="js/ie-emulation-modes-warning.js"></script>
+    <!--for JQuery Dialog box-->
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
+    <!--this is for popup window for create -->
+  <SCRIPT TYPE="text/javascript">
+    function popup(mylink, windowname) { 
+      if (! window.focus)return true;
+      var href;
+      if (typeof(mylink) == 'string') href=mylink;
+      else href=mylink.href; 
+      window.open(href, windowname, 'width=550,height=600,scrollbars=yes'); 
+      return false; 
+    }
+  </SCRIPT>
+  </head>
+    <style> 
+    #map{
+      height: 500px; width: 100%;
+    }
+
+    </style>
+  <body>
+    <!-- Fixed navbar -->
+  <div class="container">
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="navbar-header hidden-xs">
+          <!-- The mobile navbar-toggle button can be safely removed since you do not need it in a non-responsive implementation -->
+          <a class="navbar-brand" href="#">ImproveThis</a>
+        </div>
+        <!-- Note that the .navbar-collapse and .collapse classes have been removed from the #navbar -->
+        <div id="navbar">
+          <ul class="nav navbar-nav">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a onclick=getPopularity()>Top 10 popularity</a></li>
+              </ul>
+            </li>
+          </ul>
+          <form class="navbar-form navbar-left">
+            <div class="form-group">
+              <input id ="username" type="username" class="form-control" placeholder="GT Id">
+              <input id ="password" type="password" class="form-control" placeholder="password">
+            </div>
+            <button id='login'type="button" class="btn btn-default">Login</button>
+            <button id='create'type="button" class="btn btn-default">Create</button>
+          </form>
+          <div>
+            <ul class="nav navbar-nav">
+            </br>
+              <li id='greating'></li>
+            </ul>
+          </div>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a onclick=logOut()>Logout</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </nav>
+    </div>  
+
+    <div class="container">
+        <div id="map"></div>
+      <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCypmMpjzvBvQaPIK1fQpEKZkbShQQmAe0&libraries=visualization&callback=initMap">
+      </script>
+      <script src="googlemap.js"></script>
+      <div id="page">
+      <!-- [content] -->
+      <section id="content">
+        <!-- [to-do] -->
+        <article id="to-do">
+          <section>
+            <header>
+            </header>
+            <div style="overflow:scroll;height:200px;width:100%;overflow:auto">
+              <table id="to-do-list">
+                <caption>Suggestions</caption>
+                <colgroup>
+                  <col />
+                  <col />
+                  <col />
+                  <col />
+                  <col />
+                  <col />
+                  <col />
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Description</th>             
+                    <th scope="col">Name</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Likes</th>
+                  </tr>
+                </thead>
+                <tbody id = "body">         
+                </tbody>
+              </table>
+            </div>
+          </section>      
+          <section class="new-suggestion">     
+            <header>
+              <h2>Add a New</h2>
+            </header>
+            <form id="addNew">
+              <label for="newTitle">Title:</label>
+              <input id="newTitle" name="title" type="text" required>   
+              <br/>
+              <label for="newRegion">Region:</label>
+              <input id="newRegion" name="region" type="text" required>   
+              <br/>
+              <label for="newDesc">Description:</label>
+              <br/>
+              <textarea id="newDesc" name="description" type="text" style="width:500px;height:200px;">
+              </textarea> 
+              <br/>
+              <input type="file" id="pic" name="pic" accept="image/*">
+              <br/>
+              <button id = "submit" type="button">Add new</button>
+              <br/>
+            </form>
+          </section>
+        </article>
+        <!-- [/to-do] -->   
+      </section>
+      <!-- [/content] -->
+      </div>
+    </div> 
+    <!-- /container for comment -->
+    <div id="detailBox" title="ImproveThis" style="display:none";>
+        <div class="titleBox">
+            <label>Suggestion</label>
+        </div>
+        <div id="commentBox">
+            Name:
+            <label id="Name"></label>
+            <br/>
+            Region:
+            <label id="Region"></label>
+            <br/>
+            Description:
+            <br/>
+            <label id="Desc"></label>
+            <br/>
+        </div>
+        <div class="actionBox">
+            <ul id="commentList">
+            </ul>
+            <form class="form-inline" role="form">
+                <div class="form-group">
+                    <input id="form-control" type="text" placeholder="Your comments" />
+                </div>
+                <div class="form-group">
+                    <button id="add" type="button">Add</button>
+                </div>
+                <div>
+                  </br>
+                  <button id="like" type="button">Like it</button>
+                </div>
+            </form>
+          </div>
+    </div>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script>window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')</script>
+    <!--
+    <script src="js/jquery-3.1.1.min.js"></script>
+    -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="js/ie10-viewport-bug-workaround.js"></script>
+    <script type="text/javascript" src="comment.js"></script>
+    <script type="text/javascript" src="forumJson.js"></script>
+    <script type="text/javascript" src="signin.js"></script>
+
+  </body>
+
+
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>    
+    <style type="text/css">
+        body {
+          color: #000000;
+          font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;      
+        }
+        /*
+        form#add-new label{
+          width: 80px;
+          display: inline-block;
+          margin-right: 10px;
+        }
+        form#add-new input{
+          width: 150px;
+          margin-right: 10px;
+        }
+
+        form#add-new :required {
+          border-color: #11b8ff;
+          -webkit-box-shadow: 0 0 5px rgba(17, 184, 255, .75);
+          -moz-box-shadow: 0 0 5px rgba(17, 184, 255, .75);
+          -o-box-shadow: 0 0 5px rgba(17, 184, 255, .75);
+          -ms-box-shadow: 0 0 5px rgba(17, 184, 255, .75);
+          box-shadow: 0 0 5px rgba(17, 184, 255, .75);
+        }*/
+        
+        table {
+                width: 100%;
+            }
+            
+            table, tr, td, thead, tfoot, colgroup, col, caption {
+                margin: 0px;
+                border-spacing: 0px;
+            }
+            
+            table {
+                border: 1px solid #333333;
+            }
+            
+            table thead tr {
+                background-color: #d3edf8;
+            }
+            
+            table tbody tr td:last-child, table thead tr th:last-child, table tfoot tr th:last-child {
+                text-align: right;
+            }
+            
+            table tfoot tr th:first-child {
+                text-align: left;
+                background-color: #ffffff;
+                border-right: 1px solid #333333;
+            }
+            
+            table tbody tr td, table tbody tr th, table thead tr th, table thead tr td {
+                border-bottom: 1px solid #333333;
+                border-top: 0px;
+                border-left: 0px;
+                border-right: 1px solid #333333;
+            }
+            
+            table tbody tr td:last-child, table tbody tr th:last-child, table thead tr th:last-child {
+                border-right: 0px;
+            }
+            
+            table colgroup col:first-child {
+                background-color: #e3edf8;
+            }
+        
+            table thead tr th, table tbody tr td {
+                padding: 4px 7px 2px;
+            }
+            
+            table tbody tr:nth-child(even){
+                background-color: #ececec;
+            }
+            
+            table tbody tr:nth-child(od){
+                background-color: #ffffff;
+            }
+        </style>
+      </head>
+    </html>
